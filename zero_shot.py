@@ -5,7 +5,7 @@ from transformers import pipeline
 clf = pipeline(
     "zero-shot-classification",
     model="MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
-    device=-1,  # change to 0 for GPU
+    device=0,  # change to 0 for GPU
 )
 
 df = pd.read_csv("data/bengali_nostalgia_dataset.csv")
