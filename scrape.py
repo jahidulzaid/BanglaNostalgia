@@ -7,6 +7,7 @@ id, text, label, clean_text, reference_time
 
 from __future__ import annotations
 
+import argparse
 import csv
 import hashlib
 import random
@@ -198,7 +199,17 @@ def should_keep(clean_text: str, config: ScrapeConfig) -> bool:
     return True
 
 
-def main():
+def parse_args(argv: list[str] | None = None):
+    parser = argparse.ArgumentParser(description="Scrape YouTube comments into a labeled CSV.")
+    parser.add_argument(
+        "--label",
+        type=int,
+        help="Ground-truth label to assign to every scraped row. Defaults to config.DEFAULT_LABEL.",
+    )
+    return parser.parse_args(argv)
+
+
+def main(label_override: int | None = None):
     config = CONFIG
     youtube = build_youtube_client(config.YOUTUBE_API_KEY)
     output_path = config.out_csv_path
@@ -240,10 +251,11 @@ def main():
                 if config.DEDUPE_BY_TEXT_HASH and text_hash in existing_hashes:
                     continue
 
+                label_value = config.DEFAULT_LABEL if label_override is None else label_override
                 row = {
                     "id": comment_id,
                     "text": comment["text"],
-                    "label": config.DEFAULT_LABEL,
+                    "label": label_value,
                     "clean_text": clean,
                     "reference_time": comment["publishedAt"],
                 }
@@ -272,6 +284,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        cli_args = parse_args()
+        main(label_override=cli_args.label)
     except KeyboardInterrupt:
         print("\nInterrupted. Progress saved.")
