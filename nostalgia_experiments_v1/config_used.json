@@ -1,0 +1,82 @@
+{
+  "DATA_PATH": "data/bengali_nostalgia_labeled.csv",
+  "TEXT_COL_PRIORITY": [
+    "clean_text",
+    "text"
+  ],
+  "LABEL_COL": "label",
+  "ID_COL": "id",
+  "SPLIT_METHOD": "stratified_kfold",
+  "N_SPLITS": 5,
+  "TEST_SIZE": 0.2,
+  "RANDOM_SEED": 42,
+  "USE_BN_NORMALIZER": true,
+  "LOWERCASE": false,
+  "REMOVE_URLS": true,
+  "KEEP_EMOJIS": true,
+  "MIN_TEXT_LEN": 1,
+  "WORD_TFIDF": {
+    "analyzer": "word",
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "max_df": 0.95,
+    "sublinear_tf": true
+  },
+  "CHAR_TFIDF": {
+    "analyzer": "char",
+    "ngram_range": [
+      3,
+      5
+    ],
+    "min_df": 2,
+    "max_df": 0.95,
+    "sublinear_tf": true
+  },
+  "NOSTALGIA_KEYWORDS_BN": [
+    "মনে পড়ে",
+    "মনে পড়ে",
+    "মনে পড়ে",
+    "মনে পড়ে",
+    "মনে আছে",
+    "স্মৃতি",
+    "স্মৃতির",
+    "পুরনো দিন",
+    "পুরানো দিন",
+    "সেই দিন",
+    "সেই সময়",
+    "সেই সময়",
+    "একসময়",
+    "এক সময়",
+    "ছোটবেলা",
+    "শৈশব",
+    "স্কুল জীবন",
+    "কলেজ জীবন",
+    "মিস করি",
+    "খুব মিস",
+    "ফিরে যেতে চাই",
+    "আবার যদি",
+    "কি দিন ছিল",
+    "কি দিন ছিলো",
+    "আহা",
+    "ইশ"
+  ],
+  "KEYWORD_BASELINE_THRESHOLD": 1,
+  "RUN_BASELINES": true,
+  "RUN_TRANSFORMER": false,
+  "TRANSFORMER": {
+    "MODEL_NAME": "csebuetnlp/banglabert",
+    "MAX_LEN": 128,
+    "EPOCHS": 3,
+    "LR": 2e-05,
+    "BATCH_TRAIN": 16,
+    "BATCH_EVAL": 32,
+    "WEIGHT_DECAY": 0.01,
+    "USE_CLASS_WEIGHTS": true
+  },
+  "OUT_DIR": "./nostalgia_experiments",
+  "RESULTS_CSV": "results_summary.csv",
+  "PREDICTIONS_CSV": "fold_predictions.csv"
+}
