@@ -57,7 +57,7 @@ class ScrapeConfig:
 
     # --- Output ---
     OUTPUT_DIR: Path = Path("data")
-    OUTPUT_FILE: str = "bengali_nostalgia_dataset_with_label.csv"
+    OUTPUT_FILE: str = "bengali_nostalgia_labeled.csv"
 
     # Placeholder label for later annotation:
     DEFAULT_LABEL: int = -1
