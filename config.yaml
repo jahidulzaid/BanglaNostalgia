@@ -1,0 +1,39 @@
+seed: 42
+splits:
+  train: 0.7
+  val: 0.15
+  test: 0.15
+
+vectorizers:
+  word:
+    analyzer: word
+    ngram_range: [1, 2]
+    max_features: 50000
+    min_df: 2
+  char:
+    analyzer: char
+    ngram_range: [3, 5]
+    max_features: 50000
+    min_df: 2
+
+classical:
+  cv_folds: 5
+
+deep_learning:
+  max_len: 200
+  vocab_size: 50000
+  embedding_dim: 300
+  embedding_path: data/wiki.bn.vec
+  batch_size: 32
+  epochs: 20
+  patience: 3
+  dropout: 0.5
+
+transformer:
+  model_name: bert-base-uncased
+  max_length: 128
+  batch_size: 16
+  learning_rate: 2.0e-5
+  num_train_epochs: 5
+  warmup_ratio: 0.1
+  patience: 2

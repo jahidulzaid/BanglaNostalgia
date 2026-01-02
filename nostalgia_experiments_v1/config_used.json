@@ -76,7 +76,7 @@
     "WEIGHT_DECAY": 0.01,
     "USE_CLASS_WEIGHTS": true
   },
-  "OUT_DIR": "./nostalgia_experiments",
+  "OUT_DIR": "./nostalgia_experiments_v1",
   "RESULTS_CSV": "results_summary.csv",
   "PREDICTIONS_CSV": "fold_predictions.csv"
 }

@@ -98,7 +98,7 @@ CONFIG = {
     },
 
     # Output
-    "OUT_DIR": "./nostalgia_experiments",
+    "OUT_DIR": "./nostalgia_experiments_v1",
     "RESULTS_CSV": "results_summary.csv",
     "PREDICTIONS_CSV": "fold_predictions.csv",
 }
@@ -117,6 +117,11 @@ from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
+
+
+import logging
+from tqdm import tqdm
+
 
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.dummy import DummyClassifier
@@ -139,6 +144,10 @@ warnings.filterwarnings("ignore")
 # UTILITIES
 # =========================
 
+logging.basicConfig(level=logging.INFO, format="%(message)s")
+logger = logging.getLogger("run")
+
+
 URL_RE = re.compile(r"https?://\S+|www\.\S+")
 WS_RE = re.compile(r"\s+")
 
@@ -157,6 +166,7 @@ def try_bn_normalize(text: str) -> str:
         return normalize(text)
     except Exception:
         return text
+    
 
 def preprocess_text(s: str) -> str:
     s = "" if s is None else str(s)
@@ -453,11 +463,12 @@ def main():
         raise ValueError(f"Labels must be 0/1. Found: {sorted(df[label_col].unique().tolist())}")
 
     # ---- Preprocess ----
-    df["__text__"] = df[text_col].astype(str).apply(preprocess_text)
+    df["__text__"] = df[text_col].astype(str)
     df = df[df["__text__"].str.len() >= CONFIG["MIN_TEXT_LEN"]].copy()
 
     X = df["__text__"].values
     y = df[label_col].astype(int).values
+    logger.info(f"Total samples used: {len(X)}")
     ids = df[id_col].astype(str).values if id_col else np.array([str(i) for i in range(len(df))])
 
     # ---- Save config used (for reproducibility) ----
@@ -489,10 +500,17 @@ def main():
     if CONFIG["RUN_BASELINES"]:
         models = build_models()
 
+        total_steps = len(models) * len(splits)
+        pbar = tqdm(total=total_steps, desc="Running models", leave=True)
+
         for model_name, clf in models.items():
             for fold, (_, _), (X_tr, X_te, y_tr, y_te, id_te) in splits:
+                logger.info(f"Running {model_name} (fold {fold}/{len(splits)})")
+
                 t0 = time.time()
                 clf.fit(X_tr, y_tr)
+                pbar.update(1)
+
                 y_pred = clf.predict(X_te)
 
                 # probability if available
@@ -520,6 +538,8 @@ def main():
                         "y_prob": float(y_prob[i]) if y_prob is not None else np.nan,
                         "text": X_te[i],
                     })
+
+        pbar.close()
 
     # ---- Transformer baseline (optional) ----
     if CONFIG["RUN_TRANSFORMER"]:

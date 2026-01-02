@@ -1,0 +1,131 @@
+# Bangla Nostalgia Dataset Generation — Codex Prompt
+
+## Role
+You are a **senior NLP and Data Engineering researcher**.
+
+## Objective
+Build a **high-quality Bangla nostalgia detection dataset** by scraping user comments and exporting them to a CSV file.
+
+The dataset will be used for academic NLP research and model training.
+
+---
+
+## Dataset Schema (STRICT)
+
+The output CSV **must contain exactly these columns in this order**:
+
+```csv
+id,text,label,clean_text,reference_time
+Column Definitions
+id: Unique comment identifier (string)
+
+text: Original raw Bangla comment
+
+label: Integer label, default -1 (manual annotation later)
+
+clean_text: Cleaned and normalized Bangla text
+
+reference_time: ISO-8601 timestamp of original comment
+
+Data Source Requirements
+Use YouTube Data API v3
+
+Collect top-level comments only
+
+Focus on Bangla nostalgic contexts such as:
+
+Old Bengali songs
+
+Childhood memories
+
+School life
+
+Village life
+
+Past festivals
+
+Use Bangla search queries (example: পুরোনো বাংলা গান)
+
+Text Filtering Rules
+Only keep comments that:
+
+Contain at least 3 words
+
+Contain at least 2 Bengali Unicode characters
+
+Remove:
+
+URLs
+
+Emojis and symbols
+
+Zero-width Unicode characters
+
+Preserve:
+
+Bengali punctuation (।)
+
+Natural Bangla spacing
+
+Normalize whitespace.
+
+Dataset Quality Constraints
+Deduplicate records using:
+
+Comment ID
+
+Normalized clean_text hash
+
+Skip:
+
+Empty comments
+
+Non-Bangla comments
+
+Preserve accurate original timestamps
+
+Resume safely if the script is interrupted (no duplicates)
+
+Engineering Requirements
+Use Python 3
+
+Organize code into:
+
+config.py → API keys, limits, file names, settings
+
+scrape.py → scraping and CSV generation logic
+
+Read API key from environment variables
+
+Implement retry logic with exponential backoff
+
+Write data incrementally to CSV (safe for long runs)
+
+Target dataset size: ~20,000 rows
+
+Allowed Libraries
+google-api-python-client
+
+tqdm
+
+Python standard library only
+
+Output Expectations
+Generate:
+
+config.py
+
+scrape.py
+
+Clear instructions to run the scraper
+
+The final CSV must be saved as:
+
+bash
+Copy code
+data/bengali_nostalgia_dataset.csv
+Labeling Rule
+Do NOT auto-label data
+
+Set label = -1 for all rows
+
