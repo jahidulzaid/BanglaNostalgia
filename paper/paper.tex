@@ -203,15 +203,30 @@ The final dataset contains 25,168 samples with the following characteristics: To
 
 \subsection{Example Texts}
 
-Representative examples from our dataset include:
+Table~\ref{tab:dataset_samples} presents representative examples from our dataset, illustrating the diversity of nostalgic and non-nostalgic expressions in Bangla social media text.
 
-\textbf{Nostalgic (Label=1):} ``When I was young, I didn't go to school. I used to steal mangoes and sparrows from trees, walk to the market and sell them. And I would sit in a tea shop, have tea and biscuits, and watch pictures. Will those fairy tale days ever return? I miss you.''
-
-\textbf{Nostalgic (Label=1):} ``Those who are listening in 2025, please like it. I keep it as a memory. We will not be here but the songs will remain.''
-
-\textbf{Non-nostalgic (Label=0):} ``This song is very beautiful. Great work by the artist.''
-
-\textbf{Non-nostalgic (Label=0):} ``Please upload more songs like this.''
+\begin{table}[h]
+\centering
+\caption{Sample texts from the dataset with English translations}
+\label{tab:dataset_samples}
+\begin{tabular}{p{0.12\columnwidth}p{0.8\columnwidth}}
+\toprule
+\textbf{Label} & \textbf{Text (English Translation)} \\
+\midrule
+Nostalgic & ``When I was young, I didn't go to school. I used to steal mangoes and sparrows from trees, walk to the market and sell them. And I would sit in a tea shop, have tea and biscuits, and watch pictures. Will those fairy tale days ever return? I miss you.'' \\
+\midrule
+Nostalgic & ``Those who are listening in 2025, please like it. I keep it as a memory. We will not be here but the songs will remain.'' \\
+\midrule
+Nostalgic & ``This song reminds me of my childhood days. Those golden times when life was simple and happiness was everywhere.'' \\
+\midrule
+Non-nostalgic & ``This song is very beautiful. Great work by the artist.'' \\
+\midrule
+Non-nostalgic & ``Please upload more songs like this.'' \\
+\midrule
+Non-nostalgic & ``The music quality is excellent. Keep producing such content.'' \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Methodology}
 \label{sec:methodology}
@@ -303,19 +318,19 @@ mBERT & 0.878 & 0.763 & [0.741, 0.783] & 0.760 & 0.766 & 0.898 & 178M & 6m 9.5s 
 \end{tabular}
 \end{table*}
 
-\begin{figure*}[t]
+\begin{figure}[t]
     \centering
-    \includegraphics[width=0.85\textwidth]{images/roc_curves.png}
+    \includegraphics[width=\columnwidth]{images/roc_curves.png}
     \caption{ROC curves for all models. XLM-RoBERTa achieves the highest AUC (0.922), followed by mBERT (0.898) and Logistic Regression (0.888).}
     \label{fig:roc_curves}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[t]
+\begin{figure}[t]
     \centering
-    \includegraphics[width=0.85\textwidth]{images/pr_curves.png}
+    \includegraphics[width=\columnwidth]{images/pr_curves.png}
     \caption{Precision-Recall curves for all models. All top models achieve PR-AUC above 0.97, indicating strong performance across different operating points.}
     \label{fig:pr_curves}
-\end{figure*}
+\end{figure}
 
 \subsection{Main Findings}
 
@@ -353,9 +368,9 @@ XLM-RoBERTa & 11m 6.0s & 0.79s \\
 
 We analyze errors from the best-performing XLM-RoBERTa model and identify several key patterns. Figure~\ref{fig:confusion_xlm} shows the confusion matrix for XLM-RoBERTa, revealing relatively balanced performance across both classes.
 
-\begin{figure}[h]
+\begin{figure}[t]
     \centering
-    \includegraphics[width=0.45\textwidth]{images/confusion_FacebookAI/xlm-roberta-base.png}
+    \includegraphics[width=\columnwidth]{images/confusion_FacebookAI/xlm-roberta-base.png}
     \caption{Confusion matrix for XLM-RoBERTa on the test set. The model achieves strong performance with relatively balanced error distribution across both nostalgic and non-nostalgic classes.}
     \label{fig:confusion_xlm}
 \end{figure}
