@@ -3,6 +3,12 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+
+#result files
+outputs_all ml,dl and 1 tranformer
+
+
+
 # C extensions
 *.so
 

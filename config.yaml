@@ -29,11 +29,19 @@ deep_learning:
   patience: 3
   dropout: 0.5
 
-transformer:
-  model_name: bert-base-uncased
-  max_length: 128
-  batch_size: 16
-  learning_rate: 2.0e-5
-  num_train_epochs: 5
-  warmup_ratio: 0.1
-  patience: 2
+transformers:
+  - model_name: google-bert/bert-base-multilingual-cased
+    max_length: 128
+    batch_size: 16
+    learning_rate: 2.0e-5
+    num_train_epochs: 5
+    warmup_ratio: 0.1
+    patience: 2
+  
+  - model_name: FacebookAI/xlm-roberta-base
+    max_length: 128
+    batch_size: 16
+    learning_rate: 2.0e-5
+    num_train_epochs: 5
+    warmup_ratio: 0.1
+    patience: 2

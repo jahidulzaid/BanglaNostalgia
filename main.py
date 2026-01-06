@@ -94,7 +94,9 @@ def run_experiment(data_path: str, config_path: str, output_dir: str, models_to_
         all_results.extend(deep_results)
 
     if "transformer" in models_to_run:
-        logger.info("=== Transformer model ===")
+        logger.info("=== Transformer model(s) ===")
+        # Support both old format (single "transformer" key) and new format ("transformers" list)
+        transformer_config = config.get("transformers") or config.get("transformer", {})
         transformer_results = train_transformer_model(
             train_texts,
             train_labels,
@@ -102,7 +104,7 @@ def run_experiment(data_path: str, config_path: str, output_dir: str, models_to_
             val_labels,
             test_texts,
             test_labels,
-            config=config.get("transformer", {}),
+            config={"transformers": transformer_config} if isinstance(transformer_config, list) else transformer_config,
             output_dir=models_dir,
             figures_dir=figures_dir,
             seed=seed,
@@ -140,7 +142,9 @@ def parse_args():
     parser.add_argument(
         "--models",
         nargs="+",
-        default=["classical", "deep", "transformer"],
+        # default=["classical", "deep", "transformer"],
+        default=["transformer"],
+
         help="Which model families to run: classical deep transformer",
     )
     return parser.parse_args()
