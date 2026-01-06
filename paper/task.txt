@@ -1,0 +1,55 @@
+You are an academic LaTeX writing assistant.
+
+Task:
+Generate a complete research paper in LaTeX (paper.tex) for a Bangla Nostalgia Detection study using the existing codebase and experimental results.
+
+Paper Context
+
+Task: Binary classification of nostalgic vs non-nostalgic Bangla text.
+
+Dataset: ~20,000 Bangla social media text samples, manually labelled.
+
+Labels:
+
+1 = Nostalgic
+
+0 = Non-nostalgic
+
+Evaluation: Stratified 5-fold cross-validation.
+
+Models Compared
+
+Classical Machine Learning (TF-IDF features):
+
+Logistic Regression (word & character TF-IDF)
+
+Support Vector Machine (Linear SVM)
+
+Decision Tree
+
+Random Forest
+
+Multinomial Naive Bayes
+
+Majority baseline
+
+Rule-based keyword baseline
+
+Deep Learning / Transformer Models:
+
+FacebookAI/xlm-roberta-base
+google-bert/bert-base-multilingual-cased
+google-bert/bert-base-cased
+
+All transformer models are fine-tuned on the same dataset and evaluated using the same folds.
+
+Writing Style
+
+Academic tone (ACL/EMNLP)
+Clear explanations, no filler
+Neutral and reproducible claims
+Avoid marketing language
+
+
+
+update the paper.tex
