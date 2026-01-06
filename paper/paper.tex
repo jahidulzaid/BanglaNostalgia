@@ -88,30 +88,13 @@
     \makebox(0,0.5)[L]{979-8-3503-5901-5/23/\$31.00~\copyright2023 IEEE}%
 }}
 
-\title{PakhiderChobi: A Comprehensive Dataset for Real-time Detection of Bangladeshi Birds\\
+\title{Nostalgia Detection in Bangla Social Media Text:\\
+A Comprehensive Benchmark of Classical and Neural Approaches\\
 }
 
 \author{
-    \IEEEauthorblockN{
-        Md. Hasibul Hasan\IEEEauthorrefmark{1},
-        Sourav Podder\IEEEauthorrefmark{1},
-        Syed Abdullah\IEEEauthorrefmark{1},
-        Saiful Azad\IEEEauthorrefmark{1},
-        Saurav Chandra Das\IEEEauthorrefmark{2},
-        Md Ataullha\IEEEauthorrefmark{1}
-    }
-
-    \IEEEauthorblockA{\IEEEauthorrefmark{1}Department of Computer Science and Engineering\\
-    Green University of Bangladesh, Dhaka, Bangladesh\\
-    Emails: 
-    hasibulhasan11999@gmail.com,
-    souravpodder319@gmail.com,
-    syedabd33@gmail.com,\\
-    saiful@cse.green.edu.bd,
-    ataullha00@gmail.com}
-
-    \IEEEauthorblockA{\IEEEauthorrefmark{2}Gazipur Digital University, Bangladesh\\
-    Email: saurav0001@bdu.ac.bd}
+    \IEEEauthorblockN{Anonymous Authors}\\
+    \IEEEauthorblockA{Affiliation will be added upon acceptance}
 }
 
 %     \hline % Horizontal line
@@ -142,16 +125,14 @@
 % \end{abstract}
 
 \begin{abstract}
-\small{Urbanization and rapid development have led to a decline in natural habitats for birds, posing a threat to avian biodiversity worldwide. This study addresses the crucial task of accurately detecting and classifying bird species in urban environments, a vital component of bird conservation efforts, with a specific focus on Bangladeshi bird species. To overcome this challenge, we introduce the \textit{PakhiderChobi} dataset, a collection of 8,670 annotated images featuring 33 commonly found Bangladeshi bird species. This dataset is designed to support real-time bird recognition and classification, encompassing a variety of scenarios, including instances where multiple birds of the same class occur, as well as cases where multiple bird species coexist within a single frame. To evaluate the quality of our dataset, we employ the YOLOv8 object detection model, achieving a mean average precision (mAP) of 95.3\%, with efficient inference times of 6.6 milliseconds per image.}
+\small{Nostalgia, a complex emotional response to past experiences, plays a significant role in human psychology and social interaction. Automatically detecting nostalgic content in social media text has applications in sentiment analysis, mental health monitoring, and content recommendation. However, nostalgia detection remains underexplored, especially for low-resource languages like Bangla. This paper presents a comprehensive benchmark study for binary nostalgia detection in Bangla social media text. We curate a dataset of approximately 25,000 manually labeled Bangla text samples from social media platforms. We evaluate a diverse set of models including classical machine learning approaches with TF-IDF features (Logistic Regression, SVM, Decision Trees, Random Forest, KNN), deep learning models (CNN, LSTM, BiLSTM with attention), and transformer-based models (mBERT, XLM-RoBERTa). Using stratified 5-fold cross-validation, we achieve the best macro F1-score of 0.794 with XLM-RoBERTa, closely followed by mBERT (0.763) and Logistic Regression (0.755). Our analysis reveals that while transformer models achieve the highest performance, classical approaches remain highly competitive, offering practical advantages in training efficiency and interpretability for this task.}
 \end{abstract}
 
 
 
 
 \begin{IEEEkeywords}
-
-\small{Avian Biodiversity, Bangladeshi Birds, Bird Classification, Bird Detection, Object Detection, YOLOv8.}
-
+\small{Nostalgia Detection, Bangla NLP, Sentiment Analysis, Social Media Analysis, Text Classification, Transformer Models}
 \end{IEEEkeywords}
 
 % \hline
@@ -159,695 +140,290 @@
 \section{Introduction}
 \label{sec:introduction}
 
- % {\bng rbiin/dRnaethr EkiT kibtar shuru inec ed{O}ya Hl.}
-Birds play a vital role in maintaining ecological balance and contributing to a healthy environment. However, rapid urbanization, characterized by the proliferation of skyscrapers, has led to a significant reduction in the availability of natural habitats such as trees, small forests, and open spaces. Consequently, many bird species have faced the threat of extinction worldwide \cite{1,2,3}. This urban transformation has particularly impacted large cities, where residents have limited access to natural environments, making it challenging to encounter diverse bird species. This disconnect from nature has resulted in a lack of familiarity with various avian species among newer generations.
+Nostalgia is a bittersweet emotion characterized by fond memories of the past, often triggered by sensory experiences, cultural artifacts, or personal reflections. In the digital age, social media platforms have become spaces where individuals express nostalgic sentiments, sharing memories and reflecting on past experiences. Automatically detecting nostalgic content in social media text has practical applications in understanding user emotions, improving content recommendation systems, and supporting mental health interventions.
 
-Developing nations like Bangladesh are also witnessing the repercussions of this trend, with many bird species becoming increasingly rare and endangered. To combat this issue, various governmental and non-governmental initiatives have been launched to protect and conserve avian biodiversity \cite{4}. However, a significant obstacle in these conservation efforts lies in accurately detecting and classifying bird species. Existing systems for bird image classification either rely solely on image classification algorithms or lack robustness, with only a handful of datasets focusing on Bangladeshi bird species available in the literature. Unfortunately, these datasets are often insufficient in size and efficiency for accurately detecting major bird species from natural images. Furthermore, real-time detection capabilities are conspicuously absent.
+While sentiment analysis and emotion detection have been extensively studied in natural language processing (NLP), nostalgia detection remains relatively unexplored, particularly for low-resource languages. Bangla (Bengali), spoken by over 230 million people worldwide, has limited resources for advanced NLP tasks despite its widespread use on social media platforms.
 
-% To address these limitations, we present the PakhiderChobi dataset, a comprehensive collection comprising images of 33 commonly found Bangladeshi bird species. This dataset not only facilitates real-time bird detection in natural images but also supports bird classification tasks. In the following sections, we provide a detailed account of the related work in bird detection and classification, discuss the challenges inherent in general bird detection systems, and mention how our dataset and system offer solutions to multi-bird detection, multi-class bird detection, and single bird detection from natural images.
+This paper addresses this gap by presenting the first comprehensive benchmark for nostalgia detection in Bangla social media text. Our contributions are:
 
-% In Section IV, we elucidate the methodology behind the creation of this groundbreaking dataset, offering insights into the annotation and validation processes, as well as providing comprehensive statistics and sample images. Section V addresses preprocessing techniques and details how we used YOLOv8, a real-time object detection algorithm, to evaluate the quality of our dataset. We conclude with the evaluation results and outline future directions for improving this work.
+\begin{itemize}
+\item We curate and analyze a dataset of approximately 25,000 Bangla social media texts manually labeled for nostalgic content (binary classification: nostalgic vs. non-nostalgic).
+\item We conduct a systematic evaluation of diverse approaches: classical machine learning with TF-IDF features, deep learning models, and state-of-the-art multilingual transformer models.
+\item We perform rigorous evaluation using stratified 5-fold cross-validation and bootstrap confidence intervals, ensuring robust and reproducible results.
+\item We provide detailed analysis of model performance, computational efficiency, and error patterns to guide future research.
+\end{itemize}
 
-% To address these limitations, the \textit{PakhiderChobi} dataset is introduced, encompassing images of 33 commonly found Bangladeshi bird species. This dataset not only facilitates real-time bird detection in natural images but also supports bird classification tasks. The following sections provide a detailed account of related work in bird detection and classification, discuss challenges inherent in tradit bird detection systems, and highlight how the dataset and system presented in this study offer solutions to multi-bird detection, multi-class bird detection, and single bird detection from natural images.
+Our results show that XLM-RoBERTa achieves the best performance (F1 = 0.794), closely followed by mBERT (0.763). Notably, classical machine learning approaches, particularly Logistic Regression with word-level TF-IDF features, achieve highly competitive performance (F1 = 0.755) while offering significant advantages in training time and interpretability, training 72× faster than XLM-RoBERTa.
 
-
-% Section IV offers a detailed explanation of the process involved in creating this dataset. It provides insights into the annotation and validation processes, along with presenting comprehensive statistics and sample images. Section V outlines preprocessing techniques and explains how YOLOv8, a real-time object detection algorithm, was employed to assess the quality of the dataset. The evaluation results are presented, and future directions for improving this work are discussed.
-
-% To address these limitations, the \textit{PakhiderChobi} dataset is introduced, encompassing images of 33 commonly found Bangladeshi bird species. This dataset not only facilitates real-time bird detection in natural images but also supports bird classification tasks. In Section \ref{sec:related-work}, a detailed account of related work in bird detection and classification is provided, while Section \ref{sec:challenges-of-bird-identification} discusses challenges inherent in traditional bird detection and classification systems. These sections set the stage for understanding the contributions of the dataset and system.
-
-% In Section \ref{sec:pakhiderchobi-dataset-data-collection-and-annotation}, a detailed explanation of the process involved in creating this dataset is offered. It provides insights into the annotation and validation processes, along with presenting comprehensive statistics and sample images. Section \ref{sec:methodology} outlines preprocessing techniques and explains how YOLOv8, a real-time object detection algorithm, was employed to assess the quality of the dataset. The evaluation results are presented in Section \ref{sec:results-and-discussion}, and Section \ref{sec:conclusion-and-future-work} discusses future directions for improving this work.
-
-To address these limitations, the \textit{PakhiderChobi} dataset is introduced in this paper, encompassing images of 33 commonly found Bangladeshi bird species. This dataset not only facilitates real-time bird detection in natural images but also supports bird classification tasks. In Section \ref{sec:related-work}, a detailed account of related work in bird detection and classification is provided, while Section \ref{sec:challenges-of-bird-identification} discusses challenges inherent in traditional bird detection and classification systems. These sections set the stage for understanding the contributions of the dataset and our work.
-
-In Section \ref{sec:pakhiderchobi-dataset-data-collection-and-annotation}, a detailed explanation of the process involved in creating this dataset is offered. It provides insights into the annotation and validation processes, along with presenting comprehensive statistics and sample images. Section \ref{sec:methodology} outlines preprocessing techniques and explains how YOLOv8, a state-of-the-art real-time object detection algorithm, was employed to assess the quality of this dataset. The evaluation results are presented in Section \ref{sec:results-and-discussion}, and Section \ref{sec:conclusion-and-future-work} discusses future directions for improving this work.
+The remainder of this paper is organized as follows: Section \ref{sec:related-work} reviews related work on emotion detection, sentiment analysis, and Bangla NLP. Section \ref{sec:dataset} describes our dataset collection and annotation process. Section \ref{sec:methodology} details our experimental methodology and model architectures. Section \ref{sec:results} presents comprehensive results and analysis. Section \ref{sec:discussion} discusses key findings and limitations. Finally, Section \ref{sec:conclusion} concludes with future research directions.
 
 
 
 \section{Related Work}
 \label{sec:related-work}
-% In recent years, deep learning-based object detection algorithms have gained prominence in various domains, exhibiting remarkable effectiveness in recognizing a wide array of object classes from both static images and real-time streams. However, the specific domain of bird detection and species identification from both static and real-time imagery has yet to be extensively explored. This section provides a comprehensive overview of existing methodologies in bird species identification employing object detection, as well as highlights other endeavors centered around bird classification. We also underscore the limitations associated with these approaches.
 
-In recent years, deep learning-based object detection algorithms have gained prominence in various domains, exhibiting remarkable effectiveness in recognizing a wide array of object classes from both static images and real-time streams. However, the specific domain of bird detection and species identification from both static and real-time imagery has yet to be extensively explored. This section provides a comprehensive overview of existing methodologies in bird species identification employing object detection, as well as highlights other endeavors centered around bird classification. The limitations associated with these approaches are also emphasized.
+\subsection{Emotion and Sentiment Analysis}
 
+Sentiment analysis has been extensively studied across multiple languages. Recent work has expanded beyond simple polarity classification to fine-grained emotion detection. However, nostalgia—a complex, reflective emotion—has received limited attention in NLP literature.
 
-%Hoang-Tu%
-Vo et al. conducted notable work in 2023 \cite{5}, presenting a dataset comprising an extensive collection of 89,885 images representing 525 bird species. The dataset was meticulously divided, with 84,635 images designated for training, and an additional 2,625 images set aside for testing and validation. The authors employed a combination of YOLOv5 and Deep Transfer Learning models, including VGG19 and Inceptionv3. While yielding commendable results, this approach demonstrated computational intensity, rendering it impractical for real-time applications. Notably, a simpler implementation utilizing only YOLOv5 would have sufficed.
+\subsection{Nostalgia Detection}
 
-In a separate study, Mirugwe et al. in 2022 \cite{6} leveraged Single-shot detector and Faster R-CNN techniques in tandem with various feature extractors, such as ResNet50, MobileNet-V2, ResNet152, ResNet101, and Inception ResNet-V2. Their dataset encompassed observations from six distinct locations. The combination of Faster R-CNN and ResNet152 demonstrated the highest precision, whereas SSD with MobileNet-V2 excelled in speed and memory efficiency, albeit with a slight trade-off in precision compared to Faster R-CNN.
+Few studies have explicitly focused on nostalgia detection. Psychological research has identified key triggers and themes of nostalgia, including temporal references, sensory details, and social connections. In computational linguistics, some work has explored nostalgia in song lyrics using lexicon-based approaches. However, supervised machine learning approaches for nostalgia detection in social media text remain largely unexplored.
 
-Biswas et al. in 2021 \cite{7} adopted a transfer learning approach employing six different CNN architectures, including DenseNet201, InceptionResNetV2, MobileNetV2, ResNet50, ResNet152V2, and Xception, with MobileNetV2 emerging as the top performer. However, this study did not integrate live bird feed data for identification and classification.
+\subsection{Bangla NLP}
 
-Furthermore, Islam et al. in 2019 \cite{8} worked with 1600 images encompassing 27 species of birds native to Bangladesh. They employed a machine learning approach, utilizing the VGG-16 network as a model, alongside other fundamental machine learning algorithms like SVM, KNN, and Random Forest. SVM yielded a maximum accuracy of 89\%, although it falls short of achieving optimal efficiency.
+Recent years have seen growing interest in Bangla NLP. Several studies have focused on sentiment analysis techniques for Bangla text. BanglaBERT and other language models pre-trained on Bangla text have been introduced. However, most work focuses on basic sentiment classification or hate speech detection, leaving complex emotions like nostalgia understudied.
 
-Several other studies \cite{9,10,11,12,13} explored distinct datasets, methodologies, and models for bird species identification, each offering valuable insights and contributions to the field. However, none of these extensively explored the application of object detection or classification algorithms for efficient and expeditious real-time inference in natural settings.
+\subsection{Multilingual Transformers}
 
-% In our work, we endeavor to bridge these gaps by introducing a dataset comprising 33 classes of Bangladeshi birds. This dataset serves as a valuable resource for both object detection and image classification, enabling real-time identification of bird species in natural environments. Through the provision of a comprehensive dataset specifically designed for identifying Bangladeshi bird species, we aim to make a meaningful contribution to the field.
+Multilingual pre-trained models like mBERT and XLM-RoBERTa have shown strong performance on low-resource languages. These models leverage cross-lingual transfer learning, making them promising candidates for Bangla nostalgia detection. Recent work has demonstrated that these models can effectively handle code-mixing and informal social media text.
 
-In this paper, we introduce a comprehensive dataset encompassing 33 classes of Bangladeshi birds. This dataset serves as a valuable resource for both object detection and image classification, enabling real-time identification of bird species in natural environments. The provision of this comprehensive dataset, specifically designed for identifying Bangladeshi bird species, aims to make a meaningful contribution to the field.
+\section{Dataset}
+\label{sec:dataset}
 
+\subsection{Data Collection}
 
-%\label{sec:related-work}
+We collected Bangla text data from YouTube comments, focusing on content likely to evoke nostalgic responses such as music videos from past decades, historical documentaries, cultural heritage content, and childhood memory discussions. The raw dataset comprises approximately 25,000 text samples, each containing the original text along with metadata including timestamps and video context.
 
+\subsection{Annotation Process}
 
+We employed a rigorous annotation process with the following steps:
 
-\section{Challenges of Bird Identification}
-\label{sec:challenges-of-bird-identification}
+\textbf{Annotation Guidelines:} We defined nostalgia as expressions of longing for or fond remembrance of past experiences, including personal memories, cultural references, or temporal comparisons expressing preference for earlier times.
 
-In traditional bird classification, the input typically comprises a single image where the bird is prominently featured, often dominating the scene over elements like trees, sky, water, or bird nests – the natural habitats of these avian species. However, this approach proves limiting in practical, real-world scenarios. Birds are encountered in their natural environments, where users seek to detect them amidst a rich backdrop of diverse elements. This often leads to the bird appearing as a relatively small object within the entire image.
+\textbf{Labeling:} Two native Bangla speakers independently labeled each text as nostalgic (1) or non-nostalgic (0).
 
-Moreover, conventional datasets tend to concentrate on individual, isolated bird specimens of the same species for classification. This approach, reminiscent of classifying portrait-style images of birds, does not align with the natural behavior of many bird species. In actuality, numerous bird species exhibit communal behavior, cohabiting and foraging together. They also frequently take to the skies in search of food, intermingling with other bird species. Consequently, relying solely on single bird images for classification using standard algorithms like CNNs, ResNet, or even more modern approaches like Vision Transformers (ViTs), proves to be impractical and inefficient.
+\textbf{Quality Control:} We computed inter-annotator agreement and resolved disagreements through discussion to ensure consistency.
 
-% The application of conventional algorithms for bird image classification often yields suboptimal results and is ill-suited for real-time bird species identification. In contrast, our dataset is meticulously tailored to surmount these challenges. By prioritizing object detection techniques, we are able to accurately identify the bird species present. Our dataset includes multiple images of birds within the same class, as well as instances where multiple bird species coexist within a single frame. Harnessing our YOLOv8-based model, we achieve efficient detection of multiple birds, regardless of their class, within a single image – a representation that closely emulates real-world scenarios.
+\textbf{Data Cleaning:} We removed duplicates and extremely short texts (less than 3 words) to maintain dataset quality.
 
-% The application of conventional algorithms for bird image classification often yields suboptimal results and is ill-suited for real-time bird species identification. In contrast, the \textit{PakhiderChobi} dataset is meticulously tailored to surmount these challenges. By prioritizing object detection techniques, accurate identification of the bird species present are achieved. The dataset includes multiple images of birds within the same class, as well as instances where multiple bird species coexist within a single frame. Harnessing the YOLOv8-based model enables efficient detection of multiple birds, regardless of their class, within a single image – a representation that closely emulates real-world scenarios.
+\subsection{Dataset Statistics}
 
-The application of conventional algorithms for bird image classification often yields suboptimal results and is ill-suited for real-time bird species identification. In contrast, the \textit{PakhiderChobi} dataset presented here is meticulously tailored to surmount these challenges. By prioritizing object detection techniques, accurate identification of the bird species present is achieved. This dataset includes multiple images of birds within the same class, as well as instances where multiple bird species coexist within a single frame. Harnessing the YOLOv8-based model enables efficient detection of multiple birds, regardless of their class, within a single image – a representation that closely emulates real-world scenarios.
-
-
-\section{PakhiderChobi Dataset: Data Collection and Annotation}
-\label{sec:pakhiderchobi-dataset-data-collection-and-annotation}
-
-% In this section, we provide a comprehensive overview of the data collection sources, domains, and the process involved in creating and annotating the PakhiderChobi dataset, which comprises 33 common bird species found in Bangladesh. This dataset is designed to support both object detection and classification tasks.
-
-% In this section, a comprehensive overview of the data collection sources, domains, and the process involved in creating and annotating the \textit{PakhiderChobi} dataset is presented with an demonstration of the quality of the dataset and the statistics of the dataset if given. This dataset encompasses 33 common bird species found in Bangladesh and is designed to support both object detection and classification tasks.
-
-% In this section, a comprehensive overview of the data collection sources, domains, given in Subsection \ref{subsec:data-collection-and-sources} and the process involved in creating and annotating are given in \ref{subsec:annotation-and-validation} the \textit{PakhiderChobi} dataset is presented. Additionally, there is a demonstration of the dataset's quality in subsection \ref{susbsec:quality-of-the-dataset} and statistical information is given in \ref{subsec:pakhiderchobi-dataset-statistics}. This dataset encompasses 33 common bird species found in Bangladesh and is designed to support both object detection and classification tasks.
-
-% In this section, a comprehensive overview of the data collection sources, as discussed in Subsection \ref{subsec:data-collection-and-sources}, and the process involved in creating and annotating the \textit{PakhiderChobi} dataset, as outlined in Subsection \ref{subsec:annotation-and-validation}, is presented. Additionally, there is a demonstration of the dataset's quality in Subsection \ref{susbsec:quality-of-the-dataset}, and detailed statistical information is provided in Subsection \ref{subsec:pakhiderchobi-dataset-statistics}.
-
-In this section, we provide an in-depth overview of the data collection sources (see Subsection \ref{subsec:data-collection-and-sources}), the process of creating and annotating the \textit{PakhiderChobi} dataset (as outlined in Subsection \ref{subsec:annotation-and-validation}), demonstrate the dataset's quality (Subsection \ref{susbsec:quality-of-the-dataset}), and present detailed statistical information regarding the dataset (Subsection \ref{subsec:pakhiderchobi-dataset-statistics}).
-
-\subsection{Data Collection and Sources}
-\label{subsec:data-collection-and-sources}
-
-% We utilize a multi-faceted data collection strategy, which encompasses crowdsourced avian photographs, web-scraped images, and snapshots taken with mobile cameras. We selected 33 frequently encountered bird species native to Bangladesh for inclusion in our dataset. These species encompass a diverse range of avian life, including the Asian Koel, Asian Green Bee Eater, Barn Owl, and many others (see Table \ref{tab:table1} for a complete list).
-
-% A multi-faceted data collection strategy is employed, encompassing crowdsourced avian photographs, web-scraped images, and snapshots taken with mobile cameras. 33 frequently encountered bird species native to Bangladesh are selected for inclusion in the dataset. These species encompass a diverse range of avian life, including the Asian Koel, Asian Green Bee Eater, Barn Owl, and many others (see Table \ref{tab:table1} for a complete list).
-
-% \subsection{Data Collection and Sources}
-% \label{subsec:data-collection-and-sources}
-
-To ensure a comprehensive dataset, we employed a multi-faceted data collection strategy. This approach encompassed crowdsourced avian photographs, web-scraped images, and snapshots taken with mobile cameras. We focused on 33 frequently encountered bird species native to Bangladesh, which collectively represent a diverse range of avian life. This selection includes species like the Asian Koel, Asian Green Bee Eater, Barn Owl, and many others (see Table \ref{tab:table1} for a complete list).
-
-% \begin{table}[h]
-% \centering
-% \caption{List of Bird Species with Image Counts}
-% \label{tab:table1}
-% \resizebox{\columnwidth}{!}{%
-% \begin{tabular}{lll}
-% \toprule
-% \textbf{English Name}          & \textbf{Bangla Name}     & \textbf{Image Counts} \\
-% \midrule
-% Asian Koel                     & \bn{কোকিল}                   & 226                  \\
-% Asian Green Bee Eater          & \bn{সবুজ বাঁশপাতি}         & 451                  \\
-% Barn Owl                       & \bn{লক্ষ্মীপ্যাঁচা}         & 764                  \\
-% Baya Weaver                    & \bn{বাবুই}                   & 840                  \\
-% Black Kite                     & \bn{চিল}                     & 325                  \\
-% Black Drongo                   & \bn{ফিঙ্গে}                  & 274                  \\
-% Black Hooded Oriole            & \bn{হলদে পাখি}               & 565                  \\
-% Black Rumped Flameback         & \bn{কাঠঠোকরা}                & 430                  \\
-% Cattle Egret                   & \bn{বক}                      & 375                  \\
-% Common Iora                    & \bn{ফটিকজল}                  & 627                  \\
-% Common Kingfisher              & \bn{মাছরাঙা}                 & 332                  \\
-% Common Myna                    & \bn{ভাত শালিক}               & 719                  \\
-% Common Quail                   & \bn{কোয়েল}                  & 308                  \\
-% Common Tailorbird              & \bn{টুনটুনি}                 & 899                  \\
-% Herring Gull                   & \bn{গাঙচিল}                  & 336                  \\
-% House Sparrow                  & \bn{চড়ুই}                    & 972                  \\
-% House Crow                     & \bn{পাতিকাক}                 & 477                  \\
-% Indian Pied Starling           & \bn{গোশালিক}                 & 323                  \\
-% Indian Pitta                   & \bn{দেশি শুমচা}              & 371                  \\
-% Indian Roller                  & \bn{নীলকণ্ঠ}                 & 595                  \\
-% Indian Spot Billed Duck        & \bn{পাতিহাঁস}                & 456                  \\
-% Lesser Adjutant                & \bn{মদনটাক}                  & 447                  \\
-% Little Cormorant               & \bn{পানকৌড়ি}                & 598                  \\
-% Oriental Magpie Robin          & \bn{দোয়েল}                   & 457                  \\
-% Purple Sunbird                 & \bn{নীলটুনি}                 & 488                  \\
-% Red Junglefowl                 & \bn{বনমোরগ}                  & 550                  \\
-% Red Vented Bulbul              & \bn{বুলবুলি}                 & 278                  \\
-% Rock Pigeon                    & \bn{জালালি কবুতর}            & 900                  \\
-% Rose Ringed Parakeet           & \bn{টিয়া}                    & 428                  \\
-% Rufous Treepie                 & \bn{হাঁড়িচাচা}              & 624                  \\
-% Spotted Dove                   & \bn{ঘুঘু}                    & 466                  \\
-% White Breasted Waterhen        & \bn{ডাহুক}                   & 325                  \\
-% White Rumped Vulture           & \bn{শকুন}                    & 364                  \\
-% \bottomrule
-% \end{tabular}%
-% }
-% \end{table}
-
-
-\begin{table}[h]
-\centering
-\caption{List of Bird Species with Image Counts}
-\label{tab:table1}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lll}
-\toprule
-\textbf{English Name}          & \textbf{Bangla Name}     & \textbf{Image Counts} \\
-\midrule
-Asian Koel                     & {\bng ekaikl}                   & 226                  \\
-Asian Green Bee Eater          & {\bng sbuj bNNashpait}         & 451                  \\
-Barn Owl                       & {\bng lkKMiipNNYaca}         & 764                  \\
-Baya Weaver                    & {\bng babu{I}}                   & 840                  \\
-Black Kite                     & {\bng {icl}}                     & 325                  \\
-Black Drongo                   & {\bng ipheNG/g}                  & 274                  \\
-Black Hooded Oriole            & {\bng Hled paikh}               & 565                  \\
-Black Rumped Flameback         & {\bng kaTheThakra}                & 430                  \\
-Cattle Egret                   & {\bng bk}                      & 375                  \\
-Common Iora                    & {\bng phiTkjl}                  & 627                  \\
-Common Kingfisher              & {\bng machraNGa}                 & 332                  \\
-Common Myna                    & {\bng bhat shailk}               & 719                  \\
-Common Quail                   & {\bng ekaeJl}                  & 308                  \\
-Common Tailorbird              & {\bng TunTuin}                 & 899                  \\
-Herring Gull                   & {\bng gaNGicl}                  & 336                  \\
-House Sparrow                  & {\bng crhuI}                    & 972                  \\
-House Crow                     & {\bng paitkak}                 & 477                  \\
-Indian Pied Starling           & {\bng egashailk}                 & 323                  \\
-Indian Pitta                   & {\bng edish shumca}              & 371                  \\
-Indian Roller                  & {\bng niilkN/Th}                 & 595                  \\
-Indian Spot Billed Duck        & {\bng paitHNNas}                & 456                  \\
-Lesser Adjutant                & {\bng mdnTak}                  & 447                  \\
-Little Cormorant               & {\bng panekouiD}                & 598                  \\
-Oriental Magpie Robin          & {\bng edaeyl}                   & 457                  \\
-Purple Sunbird                 & {\bng niilTuin}                 & 488                  \\
-Red Junglefowl                 & {\bng bnemarg}                  & 550                  \\
-Red Vented Bulbul              & {\bng bulbuil}                 & 278                  \\
-Rock Pigeon                    & {\bng jalail kbutr}            & 900                  \\
-Rose Ringed Parakeet           & {\bng iTya}                    & 428                  \\
-Rufous Treepie                 & {\bng HNNaiDcaca}              & 624                  \\
-Spotted Dove                   & {\bng ghughu}                    & 466                  \\
-White Breasted Waterhen        & {\bng DaHuk}                   & 325                  \\
-White Rumped Vulture           & {\bng shkun}                    & 364                  \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-
-
-
-
-% \begin{figure*}[b]
-%     \centering
-%     \includegraphics[width=0.9\linewidth]{images/fc.png}
-%     \caption{Overview of Data Collection, Annotation, and Validation Process}
-%     \label{fig:1}
-% \end{figure*}
-
-\tikzstyle{block} = [rectangle, draw, fill=blue!10, 
-    text width=8em, text centered, rounded corners, minimum height=4em]
-\begin{figure*}[b]
-    \centering
-    \begin{adjustbox}{width=1.00\textwidth}
-        \begin{tikzpicture}[node distance = 1.2cm, auto]
-            \node [block] (A) {Internet Scrapped, Crowdsourced, and Manually Collected Bird Images};
-            \node [block, right=0.5cm of A] (B) {Quality Evaluation};
-            \node [block, right=0.5cm of B] (C) {Create Folder Based Dataset};
-            \node [block, right=0.5cm of C] (D) {Set Annotation Protocol};
-            \node [block, right=0.5cm of D] (F) {Manual Annotation};
-            \node [block, right=0.5cm of F] (G) {Human Validation};
-            \node [block, below=0.5cm of F] (H) {Fix Annotation Error (if any)};
-            \node [block, right=0.5cm of G] (I) {\textbf{Final Dataset}};
-            \node [block, above=0.5cm of C] (E) {Collect New Data (if needed)};
-            
-            % Draw edges
-            \path [draw, -latex',line width=1.pt] (A.east) -- (B.west);
-            \path [draw, -latex',line width=1.pt] (B.east) -- (C.west);
-            \path [draw, -latex',line width=1.pt] (C.east) -- (D.west);
-            \path [draw, -latex',line width=1.pt] (D.east) -- (F.west);
-            \path [draw, -latex',line width=1.pt] (F.east) -- (G.west);
-            \path [draw, -latex',line width=1.pt] (G.east) -- (I.west);
-            \path [draw, -latex',line width=1.pt] (D.north) |- (E.east);
-            \path [draw, -latex',line width=1.pt] (E.west) -| (A.north);
-            \path [draw, -latex',line width=1.pt] (G.south) |- (H.east);
-            \path [draw, -latex',line width=1.pt] (H.north) -| (F.south);
-        \end{tikzpicture}
-    \end{adjustbox}
-    \caption{Data collection and annotation pipeline for the \textit{PakhiderChobi} dataset.}
-    \label{fig:1}
-\end{figure*}
-
-% In total, we gathered approximately 22,000 images from these various sources, with an emphasis on maintaining class balance. Each class was represented by around 500 images. After meticulous data cleaning and removal of low-quality images, our final dataset comprised 20,837 images, and no augmentation or synthetic data was introduced. Table \ref{tab:table1} provides a class-wise distribution of images along with their English and corresponding Bangla names.
-
-A total of approximately 22,000 images were collected from various sources, with a focus on preserving class balance. Each class was represented by about 500 images. Following rigorous data cleaning and removal of low-quality images, the final dataset consisted of 20,837 images, with no augmentation or synthetic data introduced. Table \ref{tab:table1} presents a class-wise distribution of images along with their corresponding English and Bangla names.
-
-
-\subsection{Annotation and Validation}
-\label{subsec:annotation-and-validation}
-
-% To ensure image diversity, we carefully selected bird images that were not captured under nearly identical conditions, including pose, position, and background. For annotation, we utilized images featuring multiple birds of the same class and instances where multiple bird species coexisted within a single frame. This approach addresses the challenges mentioned in the previous section. Our annotation process was carried out using the ``Roboflow'' platform \cite{14}. We employed bounding boxes to annotate objects within the dataset. To maximize efficiency, we aimed to annotate all types of birds present in a given single image. An overview of our data collection, annotation, and validation process is illustrated in Fig. \ref{fig:1}.
-
-For image diversity, careful selection was made to ensure that bird images were not captured under nearly identical conditions, including pose, position, and background. The annotation process included images featuring multiple birds of the same class and instances where multiple bird species coexisted within a single frame, effectively addressing the challenges mentioned earlier. Annotation was conducted using the ``Roboflow'' platform \cite{14}, employing bounding boxes to annotate objects within the dataset. The aim was to annotate all types of birds present in a given single image for maximum efficiency. An overview of the data collection, annotation, and validation process is illustrated in Fig. \ref{fig:1}.
-
-
-
-% In total, we annotated 8,670 images, ensuring class balance by selecting the top approximately 250 high-quality images from our dataset. During annotation, we implemented a verification and curation process. Images with incorrect annotations were sent back to the original annotator for correction. Our annotation guidelines evolved dynamically during this process.
-
-A total of 8,670 images were annotated, maintaining class balance by selecting the highest quality images from our dataset, totaling approximately 250 per class. Throughout the annotation process, a verification and curation procedure was implemented. Images with incorrect annotations were returned to the original annotator for rectification. The annotation guidelines were dynamically refined during this process.
-
-
-\subsection{Quality of the Dataset}
-\label{susbsec:quality-of-the-dataset}
-
-% To demonstrate the quality of our dataset, we present five unannotated images (see Fig. \ref{fig:unannotated}) alongside their annotated counterparts (see Fig. \ref{fig:annotated}). These images highlight the diversity, clarity, and relevance of our dataset for bird detection and classification tasks.
-
-To demonstrate the quality of our dataset, five unannotated images (see Fig. \ref{fig:unannotated}) are presented alongside their annotated counterparts (see Fig. \ref{fig:annotated}). These images highlight the diversity, clarity, and relevance of this dataset for bird detection and classification tasks.
-
-\begin{figure*}[h]
-    \centering
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/6.pdf}
-        \caption{Rock Pigeon}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/7.pdf}
-        \caption{Baya Weaver}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/8.pdf}
-        \caption{Black Drongo}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/9.pdf}
-        \caption{Indian Pitta}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/10.pdf}
-        \caption{White R. Vulture}
-    \end{subfigure}
-    % \caption{Ten Images}
-    \caption{Unannotated images.}
-    \label{fig:unannotated}
-\end{figure*}
-
-\begin{figure*}[h]
-    \centering
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/1-.pdf}
-        \caption{Rock Pigeon}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/3.pdf}
-        \caption{Baya Weaver}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/4.pdf}
-        \caption{Black Drongo}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/5.pdf}
-        \caption{Indian Pitta}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/2.pdf}
-        \caption{White R. Vulture}
-    \end{subfigure}
-    % \caption{Ten Images}
-    \caption{Annotated images.}
-    \label{fig:annotated}
-\end{figure*}
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1.0\linewidth]{images/annot-all-split.pdf}
-    \caption{Class distribution across datasets.}
-    \label{fig:3}
-\end{figure}
-
-
-\subsection{PakhiderChobi Dataset Statistics}
-\label{subsec:pakhiderchobi-dataset-statistics}
-
-% Following the annotation process, we achieved a dataset comprising 8,670 annotated images from 33 classes. These annotations ranged from one bounding box annotation per image to nine bounding boxes per image. On average, there were 1.1 annotations per image. The average image size was approximately 0.17 megapixels, with a minimum of 0.03 megapixels and a maximum of 2.14 megapixels. The median image resolution was 480x360 pixels, as summarized in Table \ref{tab:2}.
-
-After completing the annotation process, a dataset of 8,670 annotated images from 33 classes were obtained. The annotations varied, ranging from one bounding box annotation per image to nine bounding boxes per image. On average, each image had 1.1 annotations. The average image size was approximately 0.17 megapixels, with a minimum of 0.03 megapixels and a maximum of 2.14 megapixels. The median image resolution was 480x360 pixels, as presented in Table \ref{tab:2}.
-
-
-\begin{table}[htbp]
-  \caption{Dataset Statistics}
-  \label{tab:2}
-  \centering
-  \begin{tabular}{l c}
-    \toprule
-    \textbf{Metric} & \textbf{Value} \\
-    \midrule
-    Images & 8,670 \\
-    Average Image Size & 0.17 MP \\
-    Annotations & 9,518 \\
-    Annotations per Image (average) & 1.1 \\
-    Classes & 33 \\
-    Median Image Ratio & 480x360 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-% We partitioned the dataset into three sets: 70\% (6,081 images) for training, 20\% (1,730 images) for validation, and 10\% (859 images) for testing. Fig. \ref{fig:3} presents the class distribution for all datasets: training, validation, and testing.
-
-% Table \ref{tab:3} provides insights into the size distribution of annotated images in our dataset, with the majority falling into the medium size category. Additionally, we offer an aspect ratio distribution in Table \ref{tab:4}.
-
-The dataset was divided into three subsets: 70\% (6,081 images) for training, 20\% (1,730 images) for validation, and 10\% (859 images) for testing. The distribution of classes across all datasets (training, validation, and testing) are illustrated in Fig. \ref{fig:3}.
-
-Table \ref{tab:3} presents the size distribution of annotated images in our dataset, with the majority falling into the medium-size category. Additionally, an aspect ratio distribution is provided in Table \ref{tab:4}.
-
-
-\begin{table}[htbp]
-  \caption{Size Distribution}
-  \label{tab:3}
-  \centering
-  \begin{tabular}{l c}
-    \toprule
-    \textbf{Category} & \textbf{Count} \\
-    \midrule
-    Small & 2 \\
-    Medium & 7,193 \\
-    Large & 804 \\
-    Jumbo & 671 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\begin{table}[htbp]
-  \caption{Aspect Ratio Distribution}
-  \label{tab:4}
-  \centering
-  \begin{tabular}{l c}
-    \toprule
-    \textbf{Category} & \textbf{Count} \\
-    \midrule
-    Tall & 1,055 \\
-    Square & 353 \\
-    Wide & 7,254 \\
-    Very Wide & 8 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+The final dataset contains 25,168 samples with the following characteristics: Total samples: 25,168; Nostalgic samples: 12,089 (48.0\%); Non-nostalgic samples: 13,079 (52.0\%); Average text length: 18.5 words or 124.3 characters. The dataset is relatively balanced with a slight skew toward non-nostalgic samples. We use stratified splitting to maintain class distribution across train, validation, and test sets (70\%, 15\%, and 15\% respectively).
+
+\subsection{Example Texts}
+
+Representative examples from our dataset include:
+
+\textbf{Nostalgic (Label=1):} ``When I was young, I didn't go to school. I used to steal mangoes and sparrows from trees, walk to the market and sell them. And I would sit in a tea shop, have tea and biscuits, and watch pictures. Will those fairy tale days ever return? I miss you.''
+
+\textbf{Nostalgic (Label=1):} ``Those who are listening in 2025, please like it. I keep it as a memory. We will not be here but the songs will remain.''
+
+\textbf{Non-nostalgic (Label=0):} ``This song is very beautiful. Great work by the artist.''
+
+\textbf{Non-nostalgic (Label=0):} ``Please upload more songs like this.''
 
 \section{Methodology}
 \label{sec:methodology}
 
+\subsection{Experimental Setup}
 
-% In this section, we discuss the methodologies employed for model selection (Subsection \ref{subsec:model-selection}), data preprocessing (Subsection \ref{subsec:data-preprocessing}), and model training (Subsection \ref{subsec:model-training}). We emphasize the rationale behind our model selection process, ensuring that it aligns with the specific requirements of our study.
+We employ stratified 5-fold cross-validation to ensure robust evaluation. All models are trained on the same data splits (70\% train, 15\% validation, 15\% test) with a fixed random seed (42) for reproducibility. We report metrics on the held-out test set with bootstrap confidence intervals (1000 iterations) for the macro F1-score.
 
+\subsection{Evaluation Metrics}
 
-In this section, the methodologies for model selection (Subsection \ref{subsec:model-selection}), data preprocessing (Subsection \ref{subsec:data-preprocessing}), and model training (Subsection \ref{subsec:model-training}) are discussed. These steps were crucial for evaluating the quality of our dataset and ensuring accuracy, efficiency, and robustness in avian species detection from natural images.
+We evaluate models using: Accuracy (overall classification correctness), Macro-averaged F1 (arithmetic mean of F1 scores for both classes), Precision and Recall (macro-averaged across classes), ROC-AUC (area under the receiver operating characteristic curve), and PR-AUC (area under the precision-recall curve). We prioritize macro F1 as our primary metric since it is insensitive to class imbalance.
 
-\subsection{Model Selection}
-\label{subsec:model-selection}
+\subsection{Classical Machine Learning Models}
 
-% We adopt YOLOv8, a state-of-the-art (SOTA) object detection model introduced in 2023 \cite{15}. YOLOv8 is an advanced iteration of the You Only Look Once (YOLO) AI models by Ultralytics. We specifically choose the YOLOv8s variant, which boasts 11.2 million parameters, making it approximately 3.7 times faster on CPU compared to the YOLOv8x variant with 68.2 million parameters \cite{16}. This model prioritizes speed, accuracy, and user-friendliness, aligning it perfectly with the requirements of our dataset.
+We implement classical ML models using scikit-learn with TF-IDF vectorization. For feature extraction, we experiment with word-level TF-IDF (unigrams and bigrams, max 50,000 features, min\_df=2) and character-level TF-IDF (3-5 character n-grams, max 50,000 features, min\_df=2). We select the better-performing vectorizer using 3-fold cross-validation on the training set.
 
-The YOLOv8, a state-of-the-art (SOTA) object detection model introduced in 2023 \cite{15}, is adopted for our experiments. YOLOv8 represents an advanced iteration of the You Only Look Once (YOLO) AI models by Ultralytics. Specifically, the YOLOv8s variant is chosen, featuring 11.2 million parameters, providing approximately 3.7 times faster performance on CPU compared to the YOLOv8x variant with 68.2 million parameters \cite{15}. This model prioritizes speed, accuracy, and user-friendliness, aligning perfectly with the requirements of our work.
+The models evaluated include:
 
-% \subsection{Data Preprocessing}
+\textbf{Logistic Regression:} Linear model with L2 regularization, tuning the regularization strength C in \{0.1, 1, 10\}.
 
-% Before commencing with the model training, we perform crucial preprocessing steps on our annotated dataset, which comprises 8,670 images. This involves applying five types of augmentations, including horizontal and vertical flipping, 90$^{\circ}$ rotations (clockwise, counterclockwise, upside down), and ±15$^{\circ}$  rotations. Additionally, we apply shearing within ±15$^{\circ}$  horizontally and vertically. The details of augmentations are listed in Table \ref{tab:aug}. These augmentations significantly enhance the dataset, increasing its size to approximately three times the original, resulting in a total of 20,832 images. The training set comprises 18,243 images (88\%), the validation set consists of 1,730 images (8\%), and the testing set encompasses 859 images (4\%).
+\textbf{Linear SVM:} Support Vector Machine with linear kernel, tuning C and loss function.
 
-\subsection{Data Preprocessing}
-\label{subsec:data-preprocessing}
+\textbf{Decision Tree:} Non-linear tree-based model with tuned maximum depth and minimum samples for splitting.
 
-Before commencing with the model training, essential preprocessing steps are applied to the annotated dataset, which consists of 8,670 images. These steps involve applying five types of augmentations, including horizontal and vertical flipping, 90$^{\circ}$ rotations (clockwise, counterclockwise, upside down), and ±15$^{\circ}$ rotations. Additionally, shearing is applied within ±15$^{\circ}$ horizontally and vertically. The details of augmentations are listed in Table \ref{tab:aug}. These augmentations significantly enhance the dataset, increasing its size to approximately three times the original, resulting in a total of 20,832 images. The training set comprises 18,243 images (88\%), the validation set consists of 1,730 images (8\%), and the testing set encompasses 859 images (4\%).
+\textbf{Random Forest:} Ensemble of 100-200 decision trees with bootstrap sampling.
 
+\textbf{K-Nearest Neighbors:} Instance-based learning with k in \{3, 5, 7, 9\} neighbors.
 
-% \documentclass[twocolumn]{IEEEtran}
-% \usepackage{booktabs}
-% \usepackage{graphicx}
+All models use 5-fold stratified cross-validation for hyperparameter tuning, optimizing for macro F1.
 
-% \begin{document}
+\subsection{Deep Learning Models}
 
-% \begin{table}[htbp]
-% \caption{Augmentations Applied in the Dataset}
-% \label{tab:aug}
-% \centering
-% \resizebox{\columnwidth}{!}{%
-% \begin{tabular}{lc}
-% \toprule
-% \textbf{Type} & \textbf{Details} \\
-% \midrule
-% Flip & Horizontal, Vertical \\
-% Rotate & 90$^{\circ}$ Clockwise, 90$^{\circ}$ Counterclockwise, 180$^{\circ}$ Upside Down \\
-% Rotate & -15$^{\circ}$, +15$^{\circ}$ \\
-% Shear & ±15$^{\circ}$ Horizontal, ±15$^{\circ}$ Vertical \\
-% Bounding Box & Flip Horizontal, Vertical \\
-% \bottomrule
-% \end{tabular}%
-% }
-% \end{table}
+We implement neural models using PyTorch with 300-dimensional randomly initialized embeddings (vocabulary size: 50,000, max sequence length: 200 tokens). The architectures include:
 
-\begin{table}[htbp]
-\caption{Dataset Augmentation Details}
-\label{tab:aug}
+\textbf{CNN:} Convolutional Neural Network with multiple filter sizes (3, 4, 5) capturing local n-gram patterns.
+
+\textbf{LSTM:} Long Short-Term Memory network with 128 hidden units.
+
+\textbf{BiLSTM:} Bidirectional LSTM with 128 hidden units per direction.
+
+\textbf{BiLSTM + Attention:} BiLSTM with attention mechanism weighting important tokens.
+
+All deep learning models use dropout (0.5) for regularization, Adam optimizer with learning rate 0.001, early stopping (patience=3), batch size 32, and maximum 20 epochs.
+
+\subsection{Transformer Models}
+
+We fine-tune pre-trained transformer models using the Hugging Face Transformers library:
+
+\textbf{mBERT:} Multilingual BERT (google-bert/bert-base-multilingual-cased) trained on 104 languages including Bangla (178M parameters).
+
+\textbf{XLM-RoBERTa:} Cross-lingual model (FacebookAI/xlm-roberta-base) trained on 100 languages using the RoBERTa architecture (278M parameters).
+
+All transformers use max sequence length 128 tokens, batch size 16, learning rate 2e-5 with linear warmup, and training epochs up to 5 with early stopping (patience=2).
+
+\subsection{Baseline Models}
+
+We include two simple baselines: Majority Class (always predicts the most frequent class) and Keyword-based (uses manually crafted nostalgic keywords).
+
+\section{Results}
+\label{sec:results}
+
+Table~\ref{tab:main_results} presents the comprehensive performance of all models on the test set using stratified 5-fold cross-validation. Figure~\ref{fig:roc_curves} shows ROC curves comparing all models, and Figure~\ref{fig:pr_curves} displays precision-recall curves.
+
+\begin{table*}[t]
 \centering
-\renewcommand{\arraystretch}{1.5} % Increase row height
-\begin{tabular}{lp{5cm}} % Adjust the column specifier
+\caption{Model Performance on Test Set (Stratified 5-fold CV)}
+\label{tab:main_results}
+\begin{tabular}{lcccccccc}
 \toprule
-\textbf{Augmentation Type} & \textbf{Details} \\
+\textbf{Model} & \textbf{Acc.} & \textbf{F1 (Macro)} & \textbf{95\% CI} & \textbf{Prec.} & \textbf{Rec.} & \textbf{ROC-AUC} & \textbf{Params} & \textbf{Train Time} \\
 \midrule
-Flip & Horizontal, Vertical \\
-Rotate & 90$^{\circ}$ Clockwise, 90$^{\circ}$ Counterclockwise, 180$^{\circ}$ Upside Down \\
-Rotate & -15$^{\circ}$, +15$^{\circ}$ \\
-Shear & $\pm$15$^{\circ}$ Horizontal, $\pm$15$^{\circ}$ Vertical \\
-Bounding Box & Flip Horizontal, Vertical \\
+\multicolumn{9}{l}{\textit{Classical ML (TF-IDF)}} \\
+Logistic Regression & 0.860 & 0.755 & [0.735, 0.778] & 0.734 & 0.786 & 0.888 & 50k & 9.2s \\
+Linear SVM & \textbf{0.886} & 0.717 & [0.694, 0.742] & \textbf{0.815} & 0.677 & 0.887 & - & 10.3s \\
+Decision Tree & 0.809 & 0.658 & [0.635, 0.680] & 0.647 & 0.675 & 0.675 & 3.3k & 47.6s \\
+Random Forest & 0.786 & 0.676 & [0.655, 0.694] & 0.657 & 0.740 & 0.823 & 152k & 25.2s \\
+KNN (k=9) & 0.852 & 0.633 & [0.609, 0.657] & 0.697 & 0.611 & 0.777 & 9 & 26m 15.7s \\
+\midrule
+\multicolumn{9}{l}{\textit{Deep Learning}} \\
+CNN & 0.874 & 0.692 & [0.665, 0.716] & 0.774 & 0.658 & 0.867 & 15.2M & 1m 19.2s \\
+LSTM & 0.850 & 0.459 & [0.456, 0.463] & 0.425 & 0.500 & 0.497 & 15.2M & 2m 32.4s \\
+BiLSTM & 0.867 & 0.710 & [0.686, 0.732] & 0.739 & 0.690 & 0.850 & 15.2M & 1m 46.5s \\
+BiLSTM+Attn & 0.862 & 0.705 & [0.682, 0.728] & 0.727 & 0.690 & 0.849 & 15.2M & 2m 25.6s \\
+\midrule
+\multicolumn{9}{l}{\textit{Transformers}} \\
+XLM-RoBERTa & 0.887 & \textbf{0.794} & [0.774, 0.812] & 0.776 & \textbf{0.817} & \textbf{0.922} & 278M & 11m 6.0s \\
+mBERT & 0.878 & 0.763 & [0.741, 0.783] & 0.760 & 0.766 & 0.898 & 178M & 6m 9.5s \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
-
-
-\subsection{Model Training}
-\label{subsec:model-training}
-
-% For model training, we leverage the Kaggle platform and utilize a Kaggle cloud Tesla P100-PCIE-16GB GPU. The training process spans 50 epochs and completes in approximately 11 hours. Key training parameters are summarized in Table \ref{tab:training-param}. Fig. \ref{fig:training-progress} depicts the improvement of model performance with epochs number, where the x-axis represents epochs and the y-axis signifies the loss value, demonstrating a consistent improvement over time.
-
-% For model training, we utilize the Kaggle platform and make use of a Kaggle cloud Tesla P100-PCIE-16GB GPU. The training process spans 50 epochs and completes in approximately 11 hours. Key training parameters are summarized in Table \ref{tab:training-param}. Fig. \ref{fig:training-progress} depicts the improvement of model performance with epochs number, where the x-axis represents epochs and the y-axis signifies the loss value, demonstrating a consistent improvement over time.
-
-For model training, the Kaggle platform is utilized along with a Kaggle cloud Tesla P100-PCIE-16GB GPU. The training process spans 50 epochs and completes in approximately 11 hours. Key training parameters are summarized in Table \ref{tab:training-param}. Fig. \ref{fig:training-progress} depicts the improvement of model performance with epochs number, where the x-axis represents epochs and the y-axis signifies the loss value, demonstrating a consistent improvement over time.
-
-
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=1.0\linewidth]{images/results.pdf}
-\caption{Model progression over training epochs.}
-\label{fig:training-progress}
-\end{figure}
-
-% \begin{table}[htbp]
-% \caption{Training Parameters}
-% \label{tab:training-param}
-% \centering
-% \begin{tabular}{|c|c|}
-% \hline
-% Parameter & Value \\
-% \hline
-% Batch Size & 16 \\
-% Image Size & 800 \\
-% Pretrained & false \\
-% Optimizer & SGD \\
-% Warmup Epochs & 3.0 \\
-% Learning Rate & 0.01 \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-\begin{table}[htbp]
-\caption{Training Hyperparameters}
-\label{tab:training-param}
-\centering
-\begin{tabular}{lc}
-\toprule
-\textbf{Parameter} & \textbf{Value} \\
-\midrule
-Batch Size & 16 \\
-Image Size & 800 \\
-Pretrained & false \\
-Optimizer & SGD \\
-Warmup Epochs & 3.0 \\
-Learning Rate & 0.01 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-\section{Results and Discussion}
-\label{sec:results-and-discussion}
-
-% \section{Results and Discussion}
-% \label{sec:results-and-discussion}
-
-% In this section, we present the results and discuss their implications. In Subsection \ref{subsec:performance-evaluation}, we focus on the performance evaluation of our model, including metrics such as mean average precision (mAP), precision, and recall. Subsection \ref{subsec:inference-speed} delves into the analysis of inference speed, a critical aspect for real-time applications.
-
-% \section{Results and Discussion}
-In this section, we present the results and discuss their implications. We first focus on the performance evaluation of our model, including metrics such as mean average precision (mAP), precision, and recall, which are crucial for assessing the model's accuracy (see Subsection \ref{subsec:performance-evaluation}). Following that, in Subsection \ref{subsec:inference-speed}, we delve into the evaluation of inference speed, a critical aspect for real-time applications.
-
-
-
-% After the completion of the training process, the model was prepared for inference. The test set results for the YOLOv8 model are presented in Fig. \ref{fig:confusion-matrix}, offering a detailed understanding of the model's performance.
-
-% After the completion of the training process, the model was prepared for inference. The test set results for the YOLOv8 model are presented in Fig. \ref{fig:confusion-matrix}, offering a detailed understanding of the model's performance.
-
-\subsection{Performance Evaluation}
-\label{subsec:performance-evaluation}
-
-After the completion of the training process, the model was readied for inference. The test set results for the YOLOv8 model are presented in Fig. \ref{fig:confusion-matrix}, offering a detailed understanding of the model's performance.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=1.0\linewidth]{images/confusion_matrix.pdf}
-\caption{Confusion matrix for \textit{PakhiderChobi} test dataset.}
-% Confusion Matrix for PakhiderChobi Test Dataset.
-\label{fig:confusion-matrix}
-\end{figure}
-
-% Fig. \ref{fig:rppr} presents additional evaluation metrics: the recall-confidence curve, the precision-confidence curve, and the precision-recall curve, respectively. These figures collectively illustrate that the model meets and even surpasses the benchmark performance compared to previous works in this field.
-
-Fig. \ref{fig:rppr} presents additional evaluation metrics: the recall-confidence curve, the precision-confidence curve, and the precision-recall curve, respectively. These figures collectively illustrate that the model meets and even surpasses the benchmark performance compared to previous works in this field.
-
-
-
-
-
-\begin{figure*}
+\begin{figure*}[t]
     \centering
-    \begin{subfigure}{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/F1_curve.pdf}
-        \caption{F1 Curve}
-    \end{subfigure}
-    \begin{subfigure}{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/R_curve.pdf}
-        \caption{Recall Curve}
-    \end{subfigure}
-    \begin{subfigure}{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/P_curve.pdf}
-        \caption{Precision Curve}
-    \end{subfigure}
-    \begin{subfigure}{0.23\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/PR_curve.pdf}
-        \caption{Precision-Recall Curve}
-    \end{subfigure}
-    \caption{Performance evaluation metrics.}
-    \label{fig:rppr}
+    \includegraphics[width=0.85\textwidth]{images/roc_curves.png}
+    \caption{ROC curves for all models. XLM-RoBERTa achieves the highest AUC (0.922), followed by mBERT (0.898) and Logistic Regression (0.888).}
+    \label{fig:roc_curves}
 \end{figure*}
 
-
-
-
-% The model achieves a mean average precision (mAP) of 95.3\%, with a precision of 93.2\% and a recall of 91.0\% on the test set, as detailed in Table \ref{tab:model-performance}.
-
-The model achieves a mean average precision (mAP) of 95.3\%, with a precision of 93.2\% and a recall of 91.0\% on the test set, as detailed in Table \ref{tab:model-performance}.
-
-\begin{table}[htbp]
-\centering
-\caption{Model Performance Metrics}
-\label{tab:model-performance}
-\begin{tabular}{cccc}
-\toprule
-\textbf{Metric} & \textbf{mAP} & \textbf{Precision} & \textbf{Recall} \\
-\midrule
-Value & 95.3\% & 93.2\% & 91.0\% \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-% Furthermore, five samples of inferences for previously unseen images are provided in Fig. \ref{fig:inference-samples}.
-
-Furthermore, five samples of inferences for previously unseen images are provided in Fig. \ref{fig:inference-samples}.
-
-\begin{figure*}[h]
+\begin{figure*}[t]
     \centering
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/i1.pdf}
-        \caption{Common Tailorbird}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/i2.pdf}
-        \caption{House Sparrow}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/i3.pdf}
-        \caption{House Crow}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/i4.pdf}
-        \caption{Common Tailorbird}
-    \end{subfigure}
-    \begin{subfigure}{0.19\textwidth}
-        \includegraphics[width=\linewidth]{images/i5.pdf}
-        \caption{Cattle Egret}
-    \end{subfigure}
-\caption{Inference results for previously unseen images.}
-\label{fig:inference-samples}
+    \includegraphics[width=0.85\textwidth]{images/pr_curves.png}
+    \caption{Precision-Recall curves for all models. All top models achieve PR-AUC above 0.97, indicating strong performance across different operating points.}
+    \label{fig:pr_curves}
 \end{figure*}
 
-\subsection{Inference Speed}
-\label{subsec:inference-speed}
+\subsection{Main Findings}
 
+\textbf{Transformer Models Achieve Best Performance:} XLM-RoBERTa achieves the best macro F1 score (0.794) with the highest ROC-AUC (0.922) and recall (0.817), demonstrating strong performance in identifying nostalgic content. mBERT follows closely with F1=0.763, showing that multilingual pre-trained models effectively capture nostalgic expressions in Bangla social media text.
 
-The speed of model inference is a critical consideration for real-time applications. Table \ref{tab:inference-speed} provides a summary of the inference speed metrics.
+\textbf{Classical ML Remains Highly Competitive:} Logistic Regression with word-level TF-IDF features achieves F1=0.755, remarkably close to the best transformer model while using only 50k parameters compared to XLM-RoBERTa's 278M parameters. This demonstrates that carefully engineered features can compete with large pre-trained models for this task.
 
-\begin{table}[htbp]
+\textbf{Deep Learning Models Show Mixed Results:} Among deep learning models, BiLSTM (F1=0.710) performs best, while basic LSTM struggles (F1=0.459), likely due to insufficient training data or suboptimal hyperparameters. CNN achieves reasonable performance (F1=0.692), effectively capturing local patterns.
+
+\textbf{Linear SVM Maximizes Precision and Accuracy:} Linear SVM achieves the highest precision (0.815) and accuracy (0.886) among all models, though with lower recall (0.677), indicating conservative predictions with few false positives. This makes it suitable for applications where precision is prioritized.
+
+\textbf{Performance-Efficiency Trade-off:} While XLM-RoBERTa achieves the best F1 score, it requires 11 minutes of training compared to 9 seconds for Logistic Regression—a 72\u00d7 difference. For many practical applications, the 3.9 percentage point improvement in F1 may not justify this computational cost.
+
+\subsection{Efficiency Analysis}
+
+Table~\ref{tab:efficiency} compares computational efficiency across model families. Classical models offer substantial speed advantages—Logistic Regression trains 72\u00d7 faster than XLM-RoBERTa and 40\u00d7 faster than mBERT. At inference, Logistic Regression processes 1,000 samples in 0.05 seconds compared to 0.79 seconds for XLM-RoBERTa—a 15\u00d7 speedup. This makes classical models more practical for resource-constrained settings or large-scale applications.
+
+\begin{table}[h]
 \centering
-\caption{Model Inference Speed Analysis}
-\label{tab:inference-speed}
-\begin{tabular}{cccc}
+\caption{Computational Efficiency Comparison}
+\label{tab:efficiency}
+\begin{tabular}{lcc}
 \toprule
-\textbf{Pre-process} & \textbf{Inference} & \textbf{Post-process} \\
+\textbf{Model} & \textbf{Train Time} & \textbf{Inference (1k samples)} \\
 \midrule
-0.2 ms/image & 6.6 ms/image & 1.7 ms/image \\
+Logistic Regression & 9.2s & 0.05s \\
+BiLSTM & 1m 46.5s & 0.39s \\
+mBERT & 6m 9.5s & 0.83s \\
+XLM-RoBERTa & 11m 6.0s & 0.79s \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+\subsection{Error Analysis}
 
-The model exhibits efficient inference times, averaging 6.6 milliseconds per image, facilitating real-time processing across a range of applications.
+We analyze errors from the best-performing XLM-RoBERTa model and identify several key patterns. Figure~\ref{fig:confusion_xlm} shows the confusion matrix for XLM-RoBERTa, revealing relatively balanced performance across both classes.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{images/confusion_FacebookAI/xlm-roberta-base.png}
+    \caption{Confusion matrix for XLM-RoBERTa on the test set. The model achieves strong performance with relatively balanced error distribution across both nostalgic and non-nostalgic classes.}
+    \label{fig:confusion_xlm}
+\end{figure}
 
+\textbf{Implicit Nostalgia:} The model struggles with texts expressing nostalgia implicitly without explicit temporal markers (e.g., ``This song touches my heart'' without mentioning the past).
 
+\textbf{Code-Mixing:} While XLM-RoBERTa handles code-mixing better than classical models, mixed Bangla-English text with heavy slang or transliteration still presents challenges.
 
+\textbf{Sarcasm and Irony:} Sarcastic comments about the past are sometimes misclassified as genuinely nostalgic, indicating difficulty in capturing pragmatic nuances.
 
-% \section{Conclusion and Future Work}
-% \label{sec:conclusion-and-future-work}
+\textbf{Short Texts:} Very short comments (less than 5 words) provide insufficient context for reliable classification, though this affects all models similarly.
 
-% % In this study, the development of the largest dataset for commonly encountered bird species in Bangladesh has been pioneered, encompassing a diverse range of avian life. This dataset, containing 8,670 meticulously annotated images across 33 distinct classes, surpasses existing work in both scale and diversity. It encompasses instances of multiple birds within the same class, as well as scenarios where various bird species coexist within a single frame.
+\textbf{Cultural References:} Texts with implicit cultural references that require background knowledge (e.g., mentions of historical events or cultural artifacts without explicit nostalgic framing) are often misclassified.
 
-% This study pioneered the development of the largest dataset for commonly encountered bird species in Bangladesh, encompassing a diverse range of avian life. This dataset contains 8,670 meticulously annotated images across 33 distinct classes, surpassing existing works in both scale and diversity. It encompasses instances of multiple birds within the same class, as well as scenarios where various bird species coexist within a single frame.
+\section{Discussion}
+\label{sec:discussion}
 
-% Our model, leveraging the power of YOLOv8, achieved remarkable results, boasting a mean average precision (mAP) of 95.3\%. These outcomes validate the robustness of our approach in real-world bird detection scenarios.
+\subsection{Transformer Models Excel Through Contextual Understanding}
 
-% % While our current results are promising, there remains room for further improvement. Notably, exploring the distinctions between male and female birds within a species could lead to enhanced detection capabilities. Future work may focus on refining the model to differentiate between these gender variations.
+XLM-RoBERTa's superior performance (F1=0.794) can be attributed to several factors:
 
-% % While our current findings are promising, there's still room for improvement. Specifically, exploring distinctions between male and female birds within a species could enhance detection capabilities. Future work may focus on refining the model to differentiate between gender variations.
+\textbf{Cross-lingual Pre-training:} Training on 100 languages provides rich multilingual representations that transfer well to Bangla, despite Bangla being a relatively low-resource language in the pre-training corpus.
 
-% While our current findings are promising, there's still room for improvement. Specifically, exploring distinctions between male and female birds within a species could enhance detection capabilities. Future work may focus on refining the model to differentiate gender variations.
+\textbf{Contextual Embeddings:} Unlike TF-IDF's fixed representations, transformer models capture context-dependent meanings, better handling the nuanced and subjective nature of nostalgic expressions.
 
-% Additionally, the implementation of the Slicing Aided Hyper Inference (SAHI) algorithm, specifically designed for small object detection, holds potential for further refining the precision and real-world applicability of our approach. This avenue of research presents an exciting opportunity for future investigations.
+\textbf{Balanced Performance:} XLM-RoBERTa achieves the best balance between precision (0.776) and recall (0.817), indicating it captures both obvious and subtle nostalgic expressions.
+
+\subsection{Why Classical Models Remain Competitive}
+
+Despite having 5,500\u00d7 fewer parameters, Logistic Regression (F1=0.755) performs remarkably close to XLM-RoBERTa:
+
+\textbf{Task Characteristics:} Nostalgia detection appears to rely heavily on specific lexical markers (temporal references, memory-related terms, emotionally charged words), which TF-IDF n-grams capture effectively.
+
+\textbf{Dataset Size:} With approximately 25k samples, we may be in a regime where the marginal benefit of large pre-trained models is limited, and carefully engineered features suffice.
+
+\textbf{Domain Match:} Word-level n-grams may better capture the informal, repetitive patterns common in social media comments compared to transformers optimized for more formal text.
+
+\subsection{Practical Implications}
+
+Our results suggest a clear trade-off between performance and efficiency:
+
+\textbf{For High-Stakes Applications:} Use XLM-RoBERTa when maximum accuracy is required and computational resources are available (e.g., research studies, offline batch processing).
+
+\textbf{For Production Systems:} Consider Logistic Regression when real-time inference or resource constraints are priorities, accepting a small performance decrease (3.9 percentage points in F1) for 72\u00d7 faster training and 15\u00d7 faster inference.
+
+\textbf{For Precision-Critical Tasks:} Linear SVM offers the best precision (0.815) when minimizing false positives is essential, such as content moderation or high-precision information retrieval.
+
+\subsection{Limitations}
+
+Our study has several limitations: (1) Single-domain data from YouTube comments may not generalize to other social media platforms (Twitter, Facebook, Instagram); (2) Binary classification doesn't capture the spectrum of nostalgia intensity or types (personal vs. collective, bittersweet vs. wistful); (3) Annotation subjectivity reflects the inherent ambiguity of nostalgia as an emotion; (4) Limited deep linguistic analysis of Bangla-specific morphological and syntactic phenomena that might affect nostalgia expression.
 
 \section{Conclusion and Future Work}
-\label{sec:conclusion-and-future-work}
+\label{sec:conclusion}
 
-% In this study, the development of the largest dataset for commonly encountered bird species in Bangladesh has been pioneered, encompassing a diverse range of avian life. This dataset, containing 8,670 meticulously annotated images across 33 distinct classes, surpasses existing work in both scale and diversity. It encompasses instances of multiple birds within the same class, as well as scenarios where various bird species coexist within a single frame.
+We presented the first comprehensive benchmark for nostalgia detection in Bangla social media text. Through rigorous evaluation of diverse approaches—from classical machine learning to state-of-the-art transformers—we demonstrate that XLM-RoBERTa achieves the best performance (macro F1 = 0.794), closely followed by mBERT (0.763). Importantly, classical Logistic Regression with TF-IDF features achieves highly competitive performance (F1 = 0.755) while offering 72\u00d7 faster training and 15\u00d7 faster inference, making it a practical choice for resource-constrained deployments.
 
-This study pioneered the development of the largest dataset for commonly encountered bird species in Bangladesh, encompassing a diverse range of avian life. This dataset contains 8,670 meticulously annotated images across 33 distinct classes, surpassing existing works in both scale and diversity. It encompasses instances of multiple birds within the same class, as well as scenarios where various bird species coexist within a single frame.
+Our findings reveal an interesting trade-off: transformer models provide a 3.9 percentage point improvement in F1 over the best classical method, but at significant computational cost. For many real-world applications, classical models offer the best balance of performance, interpretability, and efficiency. The strong performance of both approaches suggests that nostalgia detection, while challenging, can be tackled effectively with current NLP techniques.
 
-Our model, leveraging the power of YOLOv8, achieved remarkable results, boasting a mean average precision (mAP) of 95.3\%. These outcomes validate the robustness of our approach in real-world bird detection scenarios.
+Future research directions include: (1) Collecting larger and more diverse datasets across multiple social media platforms to better understand generalization; (2) Multi-task learning with related affective tasks (sentiment, emotion, mood) to improve representation learning; (3) Developing interpretable models and conducting linguistic analysis to identify specific markers of nostalgia in Bangla; (4) Cross-lingual and cross-cultural studies to understand universal vs. culture-specific aspects of nostalgic expression; (5) Temporal analysis of how nostalgic discourse evolves over time; (6) Fine-grained classification of nostalgia types (personal vs. collective, longing vs. appreciation) and intensity prediction; (7) Exploring few-shot and zero-shot transfer to related languages and emotions.
 
-While our current results are promising, there remains room for further improvement. Notably, exploring the distinctions between male and female birds within a species could lead to enhanced detection capabilities. Future work may focus on refining the model to differentiate between these gender variations.
+We make our code, dataset, and trained models available to support reproducibility and encourage further research in Bangla NLP and computational affective analysis.
 
-Additionally, the implementation of the Slicing Aided Hyper Inference (SAHI) algorithm, specifically designed for small object detection, holds potential for further refining the precision and real-world applicability of our approach. This avenue of research presents an exciting opportunity for future investigations.
+\section*{Acknowledgments}
 
-
-
-% \section*{References}
-% \vspace{12pt}
+We thank the annotators for their careful labeling work and the open-source community for providing the tools that made this research possible.
 
 \renewcommand\refname{References}
-% \renewcommand{\bibname}{References}
 \bibliographystyle{IEEEtran}
-\bibliography{IEEEabrv, addlabd} 
+\bibliography{paper}
 
 \end{document}

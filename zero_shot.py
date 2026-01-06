@@ -14,8 +14,8 @@ from pathlib import Path
 import pandas as pd
 from transformers import pipeline
 
-INPUT_PATH = Path("data/bengali_nostalgia_dataset.csv")
-OUTPUT_PATH = Path("data/bengali_nostalgia_labeled.csv")
+INPUT_PATH = Path("data/bengali_nostalgia_dataset_gpu.csv")
+OUTPUT_PATH = Path("data/bengali_nostalgia_labeled_raw.csv")
 CHECKPOINT_EVERY = 100
 CSV_FIELDS = ["id", "text", "label", "clean_text", "reference_time"]
 
@@ -57,7 +57,7 @@ def main():
 
         processed_since_ckpt = 0
         for idx, row in df.iloc[already_done:].iterrows():
-            text = row.get("clean_text") if isinstance(row.get("clean_text"), str) else row.get("text", "")
+            text = row.get("text")  #if isinstance(row.get("text"), str) else row.get("clean_text", "")
             text = text if isinstance(text, str) else ""
             out = clf(text, labels, hypothesis_template="This text is {}.")
             label_val = 1 if out["labels"][0] == "nostalgic" else 0
@@ -67,6 +67,7 @@ def main():
                     "id": row.get("id"),
                     "text": row.get("text"),
                     "label": label_val,
+                    "init_label": row.get("init_label"),
                     "clean_text": row.get("clean_text"),
                     "reference_time": row.get("reference_time"),
                 }
