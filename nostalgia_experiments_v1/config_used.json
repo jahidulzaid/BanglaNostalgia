@@ -1,5 +1,5 @@
 {
-  "DATA_PATH": "data/bengali_nostalgia_labeled.csv",
+  "DATA_PATH": "dataset/bengali_nostalgia_labeled.csv",
   "TEXT_COL_PRIORITY": [
     "clean_text",
     "text"
