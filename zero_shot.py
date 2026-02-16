@@ -1,8 +1,8 @@
 """
 Zero-shot labeling for the nostalgia dataset with periodic checkpoints.
 
-Reads:  data/bengali_nostalgia_dataset.csv
-Writes: data/bengali_nostalgia_labeled.csv
+Reads:  dataset/bengali_nostalgia_dataset.csv
+Writes: dataset/bengali_nostalgia_labeled.csv
 Saves progress every 100 rows so interruptions keep prior work.
 """
 
@@ -14,8 +14,8 @@ from pathlib import Path
 import pandas as pd
 from transformers import pipeline
 
-INPUT_PATH = Path("data/bengali_nostalgia_dataset_gpu.csv")
-OUTPUT_PATH = Path("data/bengali_nostalgia_labeled_raw.csv")
+INPUT_PATH = Path("dataset/bengali_nostalgia_dataset_gpu.csv")
+OUTPUT_PATH = Path("dataset/bengali_nostalgia_labeled_raw.csv")
 CHECKPOINT_EVERY = 100
 CSV_FIELDS = ["id", "text", "label", "clean_text", "reference_time"]
 

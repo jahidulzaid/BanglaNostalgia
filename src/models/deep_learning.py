@@ -175,7 +175,7 @@ def train_deep_models(
     batch_size = int(config.get("batch_size", 32))
     epochs = int(config.get("epochs", 20))
     patience = int(config.get("patience", 3))
-    embedding_path = Path(config.get("embedding_path", "data/wiki.bn.vec"))
+    embedding_path = Path(config.get("embedding_path", "dataset/wiki.bn.vec"))
     dropout = float(config.get("dropout", 0.5))
 
     tokenizer, train_seq, val_seq, test_seq = _prepare_sequences(
