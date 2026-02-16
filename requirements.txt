@@ -17,9 +17,9 @@ python-dotenv==1.0.1
 
 # command to run the main script with the specified data path
 
-# python main.py --data_path data/bengali_nostalgia_labeled.csv
+# python main.py --data_path dataset/bengali_nostalgia_labeled.csv
 
 
 # google-bert/bert-base-multilingual-cased commands and results
-# python main.py --data_path data/bengali_nostalgia_labeled.csv --models transformer --output_dir results/transformer_multilingual
+# python main.py --data_path dataset/bengali_nostalgia_labeled.csv --models transformer --output_dir results/transformer_multilingual
 

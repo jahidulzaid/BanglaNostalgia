@@ -23,7 +23,7 @@ deep_learning:
   max_len: 200
   vocab_size: 50000
   embedding_dim: 300
-  embedding_path: data/wiki.bn.vec
+  embedding_path: dataset/wiki.bn.vec
   batch_size: 32
   epochs: 20
   patience: 3

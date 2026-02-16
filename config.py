@@ -56,7 +56,7 @@ class ScrapeConfig:
     RETRY_MAX_ATTEMPTS: int = 6
 
     # --- Output ---
-    OUTPUT_DIR: Path = Path("data")
+    OUTPUT_DIR: Path = Path("dataset")
     OUTPUT_FILE: str = "bengali_nostalgia_labeled.csv"
 
     # Placeholder label for later annotation:
